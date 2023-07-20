@@ -1,24 +1,51 @@
-import React from "react";
-
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //include images into your bundle
 import rigoImage from "../../img/rigo-baby.jpg";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 //create your first component
 const Home = () => {
+	const[todos,setTodos]= useState([])
+	
+	const createTodo=(e)=>{
+		e.preventDefault()
+		let newtodo={
+			"label":e.target.todoInput.value,
+			"done":false
+		}
+		let isNew= true
+		todos.forEach(todo =>{
+			if(todo.label.toLowerCase()=== newtodo.label.toLowerCase()){
+				isNew=false
+			}
+		})
+		isNew ? setTodos([...todos,newtodo]) : alert("todo already exist")
+		e.target.todoInput.value=""
+	}
+
+	const removeTodo=(e,index)=>{
+		e.preventDefault()
+		let filterTodos=todos.filter((todo,i)=>{return i !== index})
+		setTodos(filterTodos)
+	}
 	return (
 		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+			<h1>To do list</h1>
+			<form onSubmit={createTodo}>
+				<input type="text" placeholder="enter to do" name="todoInput"/>
+			</form>
+			<ul>
+				{todos.map((todo,index)=>{
+					return (
+						<li key={index}>
+							<span>{todo.label}</span>
+							<button onClick={(e)=> removeTodo(e,index)}><FontAwesomeIcon icon={faTrash} /></button>
+						</li>
+					)
+				})}
+			</ul>
+			
 		</div>
 	);
 };

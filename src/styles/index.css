@@ -1,3 +1,13 @@
+li{
+    border: 1px solid black;
+    display:flex;
+    justify-content: space-between;
+    width: 250px;
+    margin: 5px auto;
+}
+body{
+    background: linear-gradient(106.5deg, rgba(255, 215, 185, 0.91) 23%, rgba(223, 159, 247, 0.8) 93%);
+}
 
 /* 
 
