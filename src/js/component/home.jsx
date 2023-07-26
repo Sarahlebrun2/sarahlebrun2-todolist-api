@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //include images into your bundle
 import rigoImage from "../../img/rigo-baby.jpg";
@@ -8,6 +8,28 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 const Home = () => {
 	const[todos,setTodos]= useState([])
 	
+	useEffect(()=>{
+		fetch("https://fake-todo-list-52f9a4ed80ce.herokuapp.com/todos/user/sarahlebrun2")
+		.then((result)=>{
+			return result.json()
+		})
+		.then((data)=>{
+			setTodos(data)
+		})
+	},[]) 
+	useEffect(()=>{
+		fetch("https://fake-todo-list-52f9a4ed80ce.herokuapp.com/todos/user/sarahlebrun2",{
+			method:"PUT",
+			body:JSON.stringify(todos),
+			headers:{"Content-type":"application/json"}
+		})
+		.then((result)=>{
+			return result.json()
+		})
+		.catch((error)=>{
+			console.log(error)
+		})
+	},[todos])
 	const createTodo=(e)=>{
 		e.preventDefault()
 		let newtodo={
